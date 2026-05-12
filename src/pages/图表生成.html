@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图表生成工具</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+</head>
+<body class="min-h-screen">
+    <div class="px-4 py-6 min-h-screen flex flex-col">
+        <header class="mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <button id="home-btn" class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-home mr-2"></i> 返回主页
+                </button>
+                <button id="clearBtn" class="px-4 py-2 bg-bg-module hover:bg-red-600 text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-trash mr-2"></i> 清空
+                </button>
+            </div>
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-gradient mb-1">图表生成工具</h1>
+                <p class="text-text-secondary text-sm">输入数据，一键生成可交互的折线图、柱状图和饼状图</p>
+            </div>
+        </header>
+
+        <main class="flex-1 flex gap-5 min-h-0">
+            <div class="w-[320px] flex-shrink-0 space-y-4 overflow-y-auto" style="max-height:calc(100vh - 160px)">
+                <div class="bg-bg-card rounded-lg border border-border-color p-4 card-hover">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-sm font-semibold text-text-primary">横坐标（X轴）</h2>
+                        <span class="text-xs text-text-secondary" id="xCount">0 个值</span>
+                    </div>
+                    <textarea class="data-input" id="xInput" placeholder="每行一个值&#10;例如：&#10;1月&#10;2月&#10;3月&#10;4月&#10;5月" style="min-height:140px"></textarea>
+                </div>
+
+                <div class="bg-bg-card rounded-lg border border-border-color p-4 card-hover">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-sm font-semibold text-text-primary">纵坐标（Y轴）</h2>
+                        <span class="text-xs text-text-secondary" id="yColCount">1 列</span>
+                    </div>
+                    <div class="space-y-3" id="yColumnsContainer">
+                    </div>
+                    <button class="add-col-btn mt-3" onclick="addColumn()">
+                        <i class="fa fa-plus mr-1"></i> 新增一列
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex-1 min-w-0 overflow-y-auto" style="max-height:calc(100vh - 160px)">
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 card-hover">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <div class="flex gap-2">
+                            <button class="tab-btn active" data-chart="line" onclick="switchChart('line', this)">
+                                <i class="fa fa-line-chart mr-1"></i> 折线图
+                            </button>
+                            <button class="tab-btn" data-chart="bar" onclick="switchChart('bar', this)">
+                                <i class="fa fa-bar-chart mr-1"></i> 柱状图
+                            </button>
+                            <button class="tab-btn" data-chart="pie" onclick="switchChart('pie', this)">
+                                <i class="fa fa-pie-chart mr-1"></i> 饼状图
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="chartArea">
+                    </div>
+
+                    <div id="pieLabelSection" class="hidden mt-4">
+                        <div class="bg-bg-module rounded-lg border border-border-color p-4">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-sm font-medium text-text-primary">饼状图标签设置</h3>
+                                <button class="px-3 py-1 bg-bg-module hover:bg-border-color text-text-secondary rounded text-xs transition-colors border border-border-color" onclick="autoFillPieLabels()">
+                                    <i class="fa fa-magic mr-1"></i> 自动填充
+                                </button>
+                            </div>
+                            <p class="text-xs text-text-secondary mb-3">为每个数据值指定饼块名称，留空则使用横坐标值</p>
+                            <div class="space-y-2" id="pieLabelsContainer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-4 text-center text-text-secondary text-xs">
+            <p>© 2026 图表生成工具 | VX:W1036527153</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-bg-card border border-border-color text-text-primary px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center z-50">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <script type="module" src="../js/图表生成.js"></script>
+</body>
+</html>

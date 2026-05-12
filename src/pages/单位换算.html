@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单位换算工具</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <header class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <button id="home-btn" class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-home mr-2"></i> 返回主页
+                </button>
+            </div>
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gradient mb-2">智能识别单位换算工具</h1>
+                <p class="text-text-secondary">可粘贴各种批量文本自动提取数值</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="bg-bg-card rounded-lg border border-border-color p-6 mb-6 card-hover">
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button class="category-tab active" data-category="length">长度</button>
+                    <button class="category-tab" data-category="weight">重量</button>
+                    <button class="category-tab" data-category="area">面积</button>
+                    <button class="category-tab" data-category="volume">体积</button>
+                    <button class="category-tab" data-category="temperature">温度</button>
+                    <button class="category-tab" data-category="data">数据存储</button>
+                    <button class="category-tab" data-category="pressure">压力</button>
+                    <button class="category-tab" data-category="speed">速度</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="block text-sm font-medium text-text-secondary mb-2">从</label>
+                        <select id="fromUnit" class="w-full px-4 py-3 bg-bg-module border border-border-color rounded-md text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"></select>
+                    </div>
+                    <div class="flex items-end">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-text-secondary mb-2">到</label>
+                            <select id="toUnit" class="w-full px-4 py-3 bg-bg-module border border-border-color rounded-md text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"></select>
+                        </div>
+                        <button id="swapBtn" class="swap-btn ml-3 mb-1 px-3 py-3 text-text-secondary hover:text-primary" title="交换单位">
+                            <i class="fa fa-exchange fa-lg"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-text-secondary mb-2">输入数值（支持批量）</label>
+                    <textarea id="inputArea" rows="3" class="w-full px-4 py-3 bg-bg-module border border-border-color rounded-md text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors resize-none" placeholder="输入或粘贴，如5*6*7.1 等"></textarea>
+                </div>
+
+                <div id="extractedPreview" class="mb-4 hidden">
+                    <label class="block text-sm font-medium text-text-secondary mb-2">已提取数值</label>
+                    <div id="extractedTags" class="flex flex-wrap gap-1"></div>
+                </div>
+
+                <button id="convertBtn" class="w-full py-3 bg-primary hover:bg-blue-600 text-white rounded-md font-medium transition-colors flex items-center justify-center">
+                    <i class="fa fa-exchange mr-2"></i> 换算
+                </button>
+            </div>
+
+            <div id="resultSection" class="hidden">
+                <div class="bg-bg-card rounded-lg border border-border-color overflow-hidden card-hover">
+                    <div class="flex flex-wrap justify-between items-center px-6 py-4 border-b border-border-color gap-3">
+                        <h2 class="text-lg font-semibold text-text-primary">换算结果</h2>
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-2">
+                                <label class="text-sm text-text-secondary whitespace-nowrap">小数位数</label>
+                                <select id="decimalSelect" class="px-3 py-1.5 bg-bg-module border border-border-color rounded-md text-text-primary text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+                                    <option value="auto">自动</option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="6">6</option>
+                                    <option value="8">8</option>
+                                </select>
+                            </div>
+                            <button id="copyAllBtn" class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                                <i class="fa fa-copy mr-2"></i> 复制全部
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-bg-module">
+                                    <th class="px-6 py-3 text-left text-sm font-medium text-text-secondary">原始值</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium text-text-secondary" id="fromUnitHeader">-</th>
+                                    <th class="px-6 py-3 text-center text-sm font-medium text-text-secondary w-12">→</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium text-text-secondary" id="toUnitHeader">-</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 text-center text-text-secondary text-sm">
+            <p>© 2026 单位换算工具 | VX:W1036527153</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-bg-card border border-border-color text-text-primary px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center z-50">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <script type="module" src="../js/单位换算.js"></script>
+</body>
+</html>

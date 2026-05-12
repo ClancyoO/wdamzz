@@ -1,0 +1,169 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投产核算工具</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <button id="home-btn" class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-home mr-2"></i> 返回主页
+                </button>
+                <button id="clearBtn" class="px-4 py-2 bg-bg-module hover:bg-red-600 text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-trash mr-2"></i> 清空
+                </button>
+            </div>
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gradient mb-2">投产核算工具</h1>
+                <p class="text-text-secondary">实时计算亚马逊产品毛利额、毛利率、回款率与投产比</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="bg-bg-card rounded-lg border border-border-color p-6 mb-6 card-hover">
+                <h2 class="text-lg font-semibold text-text-primary mb-5">输入参数</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <div class="lg:col-span-3 space-y-3">
+                        <div class="input-group">
+                            <label>售价</label>
+                            <input type="number" id="price" step="0.01" placeholder="0.00">
+                            <button class="currency-toggle" data-field="price" data-currency="$" onclick="toggleCurrency(this)">$</button>
+                        </div>
+                        <div class="input-group">
+                            <label>成本</label>
+                            <input type="number" id="cost" step="0.01" placeholder="0.00">
+                            <button class="currency-toggle" data-field="cost" data-currency="¥" onclick="toggleCurrency(this)">¥</button>
+                        </div>
+                        <div class="input-group">
+                            <label>头程运费</label>
+                            <input type="number" id="firstLeg" step="0.01" placeholder="0.00">
+                            <button class="currency-toggle" data-field="firstLeg" data-currency="¥" onclick="toggleCurrency(this)">¥</button>
+                        </div>
+                        <div class="input-group">
+                            <label>FBA运费</label>
+                            <input type="number" id="fbaFee" step="0.01" placeholder="0.00">
+                            <button class="currency-toggle" data-field="fbaFee" data-currency="$" onclick="toggleCurrency(this)">$</button>
+                        </div>
+                        <div class="input-group">
+                            <label>佣金比例</label>
+                            <input type="number" id="commissionRate" step="0.01" placeholder="15" value="15">
+                            <span class="unit">%</span>
+                        </div>
+                        <div class="input-group">
+                            <label>推广费用占比</label>
+                            <input type="number" id="adRate" step="0.01" placeholder="0" value="0">
+                            <span class="unit">%</span>
+                        </div>
+                        <div class="input-group">
+                            <label>退货率</label>
+                            <input type="number" id="returnRate" step="0.01" placeholder="0" value="0">
+                            <span class="unit">%</span>
+                        </div>
+                        <div class="input-group">
+                            <label>仓储及其它占比</label>
+                            <input type="number" id="storageRate" step="0.01" placeholder="0" value="0">
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-1">
+                        <div class="exchange-card h-full flex flex-col items-center justify-center">
+                            <div class="text-center mb-3">
+                                <span class="text-2xl font-bold text-primary">1 $</span>
+                                <span class="text-text-secondary mx-1">=</span>
+                            </div>
+                            <div class="rate-input w-full mb-3">
+                                <input type="number" id="exchangeRate" step="0.01" value="6.8" placeholder="6.8">
+                                <span class="rate-label">¥</span>
+                            </div>
+                            <p class="text-xs text-text-secondary text-center">美元兑人民币汇率<br>点击 ¥/$ 可切换输入币种</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-bg-card rounded-lg border border-border-color p-6 mb-6 card-hover">
+                <div class="flex justify-between items-center mb-5">
+                    <h2 class="text-lg font-semibold text-text-primary">计算结果</h2>
+                    <button id="copyBtn" class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                        <i class="fa fa-copy mr-2"></i> 复制结果
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                    <div class="result-card">
+                        <div class="result-value neutral" id="grossProfit">-</div>
+                        <div class="result-label">毛利额</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value neutral" id="grossMargin">-</div>
+                        <div class="result-label">毛利率</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value neutral" id="roi">-</div>
+                        <div class="result-label">ROI（投产比）</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value neutral" id="paymentBack">-</div>
+                        <div class="result-label">回款额</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value neutral" id="paymentRate">-</div>
+                        <div class="result-label">回款率</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value neutral" id="totalCost">-</div>
+                        <div class="result-label">总成本</div>
+                    </div>
+                </div>
+
+                <div class="bg-bg-module rounded-lg border border-border-color p-4">
+                    <h3 class="text-sm font-medium text-text-secondary mb-3">费用明细（人民币 ¥）</h3>
+                    <div class="space-y-2 text-sm" id="breakdown">
+                        <div class="flex justify-between"><span class="text-text-secondary">产品成本</span><span class="text-text-primary" id="bdCost">-</span></div>
+                        <div class="flex justify-between"><span class="text-text-secondary">头程运费</span><span class="text-text-primary" id="bdFirstLeg">-</span></div>
+                        <div class="flex justify-between"><span class="text-text-secondary">FBA运费（含退货分摊）</span><span class="text-text-primary" id="bdFba">-</span></div>
+                        <div class="flex justify-between"><span class="text-text-secondary">平台佣金</span><span class="text-text-primary" id="bdCommission">-</span></div>
+                        <div class="flex justify-between"><span class="text-text-secondary">推广费用</span><span class="text-text-primary" id="bdAd">-</span></div>
+                        <div class="flex justify-between"><span class="text-text-secondary">退货损失</span><span class="text-text-primary" id="bdReturn">-</span></div>
+                        <div class="flex justify-between"><span class="text-text-secondary">仓储及其它</span><span class="text-text-primary" id="bdStorage">-</span></div>
+                        <div class="flex justify-between border-t border-border-color pt-2 mt-2 font-semibold"><span class="text-text-primary">总成本</span><span class="text-text-primary" id="bdTotal">-</span></div>
+                        <div class="flex justify-between font-semibold"><span class="text-text-primary">售价</span><span class="text-primary" id="bdPrice">-</span></div>
+                        <div class="flex justify-between font-semibold"><span class="text-text-primary">毛利额</span><span id="bdProfit">-</span></div>
+                    </div>
+                </div>
+
+                <div class="mt-4 bg-bg-module rounded-lg border border-border-color p-4">
+                    <h3 class="text-sm font-medium text-text-secondary mb-2">计算公式</h3>
+                    <div class="text-xs text-text-secondary space-y-1 leading-relaxed">
+                        <p>佣金 = 售价 × 佣金比例</p>
+                        <p>推广费用 = 售价 × 推广费用占比</p>
+                        <p>退货损失 = 售价 × 退货率（退货产生的退款损失）</p>
+                        <p>FBA运费(含退货分摊) = FBA运费 × (1 + 退货率)</p>
+                        <p>仓储及其它 = 售价 × 仓储及其它占比</p>
+                        <p>总成本 = 成本 + 头程 + FBA运费(含退货) + 佣金 + 推广 + 退货损失 + 仓储及其它</p>
+                        <p>毛利额 = 售价 - 总成本</p>
+                        <p>毛利率 = 毛利额 / 售价 × 100%</p>
+                        <p>回款额 = 售价 - 佣金 - 推广费用 - 退货损失</p>
+                        <p>回款率 = 回款额 / 售价 × 100%</p>
+                        <p>ROI = 毛利额 / (成本 + 头程 + FBA运费 + 仓储及其它) × 100%</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 text-center text-text-secondary text-sm">
+            <p>© 2026 投产核算工具 | VX:W1036527153</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-bg-card border border-border-color text-text-primary px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center z-50">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <script type="module" src="../js/投产核算.js"></script>
+</body>
+</html>

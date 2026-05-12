@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量打开关键词&ASIN</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <header class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <button id="home-btn" class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-home mr-2"></i> 返回主页
+                </button>
+                <button id="clearBtn" class="px-4 py-2 bg-bg-module hover:bg-red-600 text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-trash mr-2"></i> 清空
+                </button>
+            </div>
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gradient mb-2">批量打开关键词&ASIN</h1>
+                <p class="text-text-secondary">输入关键词和ASIN，一键生成Amazon搜索链接和商品链接</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 card-hover">
+                    <div class="section-header">
+                        <span class="section-title"><i class="fa fa-search mr-2 text-primary"></i>关键词输入</span>
+                        <span class="section-count" id="kwCount">0 条</span>
+                    </div>
+                    <div class="input-area">
+                        <textarea id="kwInput" placeholder="每行输入一个关键词&#10;例如：&#10;mouse pad&#10;power bank&#10;phone case"></textarea>
+                    </div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 card-hover">
+                    <div class="section-header">
+                        <span class="section-title"><i class="fa fa-barcode mr-2 text-primary"></i>ASIN输入</span>
+                        <span class="section-count" id="asinCount">0 条</span>
+                    </div>
+                    <div class="input-area">
+                        <textarea id="asinInput" placeholder="每行输入一个ASIN&#10;例如：&#10;B0C1TF6051&#10;B09N5RRWNW&#10;B09V3K1J0B"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 card-hover">
+                    <div class="section-header">
+                        <span class="section-title"><i class="fa fa-search mr-2 text-primary"></i>关键词链接</span>
+                        <span class="section-count" id="kwLinkCount">0 个链接</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button class="batch-btn" onclick="batchOpenKw(1)">
+                            <i class="fa fa-external-link mr-1"></i> 打开 1 个
+                        </button>
+                        <button class="batch-btn" onclick="batchOpenKw(3)">
+                            <i class="fa fa-external-link mr-1"></i> 打开 3 个
+                        </button>
+                        <button class="batch-btn" onclick="batchOpenKw(5)">
+                            <i class="fa fa-external-link mr-1"></i> 打开 5 个
+                        </button>
+                        <button class="batch-btn" onclick="batchOpenKw(10)">
+                            <i class="fa fa-external-link mr-1"></i> 打开 10 个
+                        </button>
+                    </div>
+                    <div class="links-container" id="kwLinks">
+                        <span class="empty-hint">在上方输入关键词后自动生成链接</span>
+                    </div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 card-hover">
+                    <div class="section-header">
+                        <span class="section-title"><i class="fa fa-barcode mr-2 text-primary"></i>ASIN链接</span>
+                        <span class="section-count" id="asinLinkCount">0 个链接</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <button class="batch-btn" onclick="batchOpenAsin(1)">
+                            <i class="fa fa-external-link mr-1"></i> 打开 1 个
+                        </button>
+                        <button class="batch-btn" onclick="batchOpenAsin(3)">
+                            <i class="fa fa-external-link mr-1"></i> 打开 3 个
+                        </button>
+                        <button class="batch-btn" onclick="batchOpenAsin(5)">
+                            <i class="fa fa-external-link mr-1"></i> 打开 5 个
+                        </button>
+                        <button class="batch-btn" onclick="batchOpenAsin(10)">
+                            <i class="fa fa-external-link mr-1"></i> 打开 10 个
+                        </button>
+                    </div>
+                    <div class="links-container" id="asinLinks">
+                        <span class="empty-hint">在上方输入ASIN后自动生成链接</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-bg-card rounded-lg border border-border-color p-5 card-hover">
+                <h3 class="text-sm font-medium text-text-secondary mb-3">使用说明</h3>
+                <div class="text-xs text-text-secondary space-y-1 leading-relaxed">
+                    <p><i class="fa fa-info-circle mr-1 text-primary"></i> 在左侧输入关键词（每行一个），右侧输入ASIN（每行一个）</p>
+                    <p><i class="fa fa-mouse-pointer mr-1 text-primary"></i> 点击任意链接可手动打开</p>
+                    <p><i class="fa fa-external-link mr-1 text-primary"></i> 批量打开按钮仅打开未访问过的链接</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 text-center text-text-secondary text-sm">
+            <p>© 2026 批量打开关键词&ASIN | VX:W1036527153</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-bg-card border border-border-color text-text-primary px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center z-50">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <script type="module" src="../js/批量打开.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本比对工具</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body class="bg-bg-primary text-text-primary min-h-screen">
+    <button id="back-to-top" class="back-to-top" title="回到顶部">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <header class="mb-8 w-full max-w-6xl mx-auto">
+            <div class="relative">
+                <div class="text-center mb-4">
+                    <h1 class="text-4xl font-bold text-gradient mb-2">文案写作工具</h1>
+                    <p class="text-text-secondary">实时进行埋词检测</p>
+                </div>
+                <div class="absolute top-0 left-0 flex gap-3">
+                    <button id="home-button" class="home-button" title="返回主页">
+                        <i class="fa fa-home"></i>
+                        <span>返回主页</span>
+                    </button>
+                    <button id="clear-button" class="clear-button" title="清除所有内容">
+                        <i class="fa fa-trash"></i>
+                        <span>清除</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-col lg:flex-row gap-6 w-full max-w-6xl mx-auto">
+            <div class="w-full lg:w-1/2 space-y-6">
+                <h2 class="text-xl font-semibold mb-4">待检测文案</h2>
+
+                <div class="bg-bg-card rounded-lg p-4 border border-border-color animate-fade-in card-hover">
+                    <label class="block text-sm font-medium text-text-secondary mb-2">标题</label>
+                    <div>
+                        <textarea id="title-input" class="w-full bg-bg-module border border-border-color rounded-md p-3 text-text-primary input-focus" placeholder="请输入标题内容..."></textarea>
+                        <div id="title-highlight" class="highlight-display-full hidden"></div>
+                    </div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg p-4 border border-border-color animate-fade-in card-hover" style="animation-delay: 0.1s;">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-medium text-text-secondary">五点描述</label>
+                        <button id="add-description" class="text-primary hover:text-blue-400 transition-colors flex items-center text-sm">
+                            <i class="fa fa-plus mr-1"></i> 添加描述
+                        </button>
+                    </div>
+                    <div id="descriptions-container" class="space-y-3">
+                        <div class="description-item">
+                            <div class="flex items-center mb-1">
+                                <span class="text-xs bg-bg-module px-2 py-1 rounded-md mr-2">1</span>
+                                <button class="delete-description text-text-secondary hover:text-red-500 transition-colors ml-auto">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="textarea-wrapper">
+                                <textarea class="description-input w-full bg-bg-module border border-border-color rounded-md p-3 text-text-primary input-focus" placeholder="请输入描述内容..."></textarea>
+                                <div class="description-highlight textarea-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg p-4 border border-border-color animate-fade-in card-hover" style="animation-delay: 0.2s;">
+                    <label class="block text-sm font-medium text-text-secondary mb-2">搜索词</label>
+                    <div>
+                        <textarea id="keywords-input" class="w-full bg-bg-module border border-border-color rounded-md p-3 text-text-primary input-focus" placeholder="请输入搜索词..."></textarea>
+                        <div id="keywords-highlight" class="highlight-display-full hidden"></div>
+                    </div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg p-4 border border-border-color animate-fade-in card-hover" style="animation-delay: 0.3s;">
+                    <label class="block text-sm font-medium text-text-secondary mb-2">描述</label>
+                    <div>
+                        <textarea id="description-input" class="w-full bg-bg-module border border-border-color rounded-md p-3 text-text-primary input-focus" placeholder="请输入描述内容..."></textarea>
+                        <div id="description-highlight" class="highlight-display-full hidden"></div>
+                    </div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg p-4 border border-border-color animate-fade-in card-hover" style="animation-delay: 0.4s;">
+                    <label class="block text-sm font-medium text-text-secondary mb-2">A+</label>
+                    <div>
+                        <textarea id="aplus-input" class="w-full bg-bg-module border border-border-color rounded-md p-3 text-text-primary input-focus" placeholder="请输入A+内容..."></textarea>
+                        <div id="aplus-highlight" class="highlight-display-full hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-1/2 space-y-6">
+                <h2 class="text-xl font-semibold mb-4">检测项</h2>
+
+                <div class="bg-bg-card rounded-lg p-4 border border-border-color animate-fade-in card-hover">
+                    <label class="block text-sm font-medium text-text-secondary mb-2">检测项列 - 重复内容文案内标红</label>
+                    <div class="textarea-wrapper">
+                        <textarea id="checklist1-input" class="w-full bg-bg-module border border-border-color rounded-md p-3 text-text-primary input-focus resize-none" rows="10" placeholder="请输入检测项，每行一个..."></textarea>
+                    </div>
+                    <div id="checklist1-items" class="mt-4 space-y-2 max-h-96 overflow-y-auto p-2">
+                    </div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg p-4 border border-border-color animate-fade-in card-hover" style="animation-delay: 0.1s;">
+                    <label class="block text-sm font-medium text-text-secondary mb-2">检测项列 - 重复内容文案内标蓝</label>
+                    <div class="textarea-wrapper">
+                        <textarea id="checklist2-input" class="w-full bg-bg-module border border-border-color rounded-md p-3 text-text-primary input-focus resize-none" rows="10" placeholder="请输入检测项，每行一个..."></textarea>
+                    </div>
+                    <div id="checklist2-items" class="mt-4 space-y-2 max-h-96 overflow-y-auto p-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-text-secondary text-sm w-full max-w-6xl mx-auto">
+            <p>© 2026 文案写作工具 | 可自动保存在本地 如需重新写点击清除按钮</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-bg-card border border-border-color text-text-primary px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center z-50">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <script type="module" src="../js/写文案.js"></script>
+</body>
+</html>

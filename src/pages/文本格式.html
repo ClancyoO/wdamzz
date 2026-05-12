@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本格式编辑</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <button id="home-btn" class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-home mr-2"></i> 返回主页
+                </button>
+                <button id="clearBtn" class="px-4 py-2 bg-bg-module hover:bg-red-600 text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-trash mr-2"></i> 清空
+                </button>
+            </div>
+            <div class="text-center">
+                <h1 class="text-4xl font-bold mb-2" style="background:linear-gradient(90deg,#fff,#0070f3);-webkit-background-clip:text;-webkit-text-fill-color:transparent">文本格式</h1>
+                <p class="text-text-secondary">常用文本格式转换工具，如大小写切换，首字母大写等</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="bg-bg-card rounded-lg border border-border-color p-5 mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-sm font-semibold">输入文本</h2>
+                    <span class="text-xs text-text-secondary" id="charCount">0 字符</span>
+                </div>
+                <textarea class="input-area" id="mainInput" rows="8" placeholder="在此输入或粘贴文本..."></textarea>
+            </div>
+
+            <div class="bg-bg-card rounded-lg border border-border-color p-5 mb-6">
+                <h2 class="text-sm font-semibold mb-4">转换操作</h2>
+                <div class="flex flex-wrap gap-3 mb-5">
+                    <button class="convert-btn" id="btnWordCap" onclick="convertWordCapitalize()">
+                        <i class="fa fa-font mr-1"></i> 全首字母大小写切换
+                        <span class="state-hint" id="wordCapHint">→大写</span>
+                    </button>
+                    <button class="convert-btn" id="btnAllCase" onclick="convertAllCase()">
+                        <i class="fa fa-text-height mr-1"></i> 全文大小写切换
+                        <span class="state-hint" id="allCaseHint">→大写</span>
+                    </button>
+                    <button class="convert-btn" id="btnSentenceCap" onclick="convertSentenceCapitalize()">
+                        <i class="fa fa-paragraph mr-1"></i> 句首字母大写切换
+                        <span class="state-hint" id="sentenceCapHint">→大写</span>
+                    </button>
+                    <button class="convert-btn" onclick="convertBoldFormat()">
+                        <i class="fa fa-bold mr-1"></i> 换行加粗格式代码
+                    </button>
+                </div>
+
+                <div class="mb-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xs text-text-secondary"><i class="fa fa-bold mr-1 text-primary"></i>需加粗文本（用于生成加粗格式代码）</span>
+                    </div>
+                    <textarea class="bold-input" id="boldInput" rows="3" placeholder="每行输入一个需要在原文中大写加粗的短语&#10;例如：&#10;PREMIUM QUALITY&#10;EASY TO USE"></textarea>
+                </div>
+            </div>
+
+            <div id="resultArea" class="hidden">
+                <div class="result-card">
+                    <div class="result-header">
+                        <span class="text-sm font-medium text-primary" id="resultTitle"><i class="fa fa-check-circle mr-1"></i></span>
+                        <button class="copy-btn" id="copyBtn" onclick="copyResult()">
+                            <i class="fa fa-copy mr-1"></i>复制
+                        </button>
+                    </div>
+                    <div class="result-body" id="resultBody"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 text-center text-text-secondary text-sm">
+            <p>© 2026 文本格式编辑 | VX:W1036527153</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-bg-card border border-border-color text-text-primary px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center z-50">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <script type="module" src="../js/文本格式.js"></script>
+</body>
+</html>

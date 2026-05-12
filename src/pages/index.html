@@ -1,0 +1,139 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WenD's Tool</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-12">
+        <header class="mb-12 text-center">
+            <div class="flex justify-center items-center gap-4 mb-2">
+                <h1 class="text-5xl font-bold text-gradient">WenD's Tool</h1>
+                <button id="new-tab-btn" class="bg-dark-lighter hover:bg-dark-light text-white px-4 py-2 rounded-md transition-colors duration-300 text-sm">
+                    新增一页
+                </button>
+            </div>
+            <p class="text-gray-400 max-w-2xl mx-auto">亚马逊日常工作一站式快捷工具集合</p>
+        </header>
+
+        <div class="search-container mb-10">
+            <input type="text" id="search-input" class="search-input" placeholder="搜索工具...">
+            <i class="fa fa-search search-icon"></i>
+        </div>
+
+        <div class="tool-grid" id="tools-container">
+            <div class="card card-hover fade-in" data-tool="广告分析" data-category="analysis">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">广告分析</h3>
+                    <p class="text-gray-400 text-sm mb-4">每日广告报告分析</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('广告分析')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="网页翻译" data-category="text">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">网页翻译</h3>
+                    <p class="text-gray-400 text-sm mb-4">复制内容，右键网页翻译，复制出</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('网页翻译')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="词根拆解-词根溯源" data-category="text">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">词根拆解-词根溯源</h3>
+                    <p class="text-gray-400 text-sm mb-4">拆解内容词根并统计分析</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('词根拆解-词根溯源')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="重复检测" data-category="text">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">重复检测</h3>
+                    <p class="text-gray-400 text-sm mb-4">检测文本重复内容</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('重复检测')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="标记关键词" data-category="text">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">标记关键词</h3>
+                    <p class="text-gray-400 text-sm mb-4">手动给关键词打自定义的标签</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('标记关键词')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="标记ASIN" data-category="text">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">标记ASIN</h3>
+                    <p class="text-gray-400 text-sm mb-4">手动给ASIN打自定义的标签</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('标记ASIN')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="写文案" data-category="text">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">写文案</h3>
+                    <p class="text-gray-400 text-sm mb-4">检查文案的埋词</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('写文案')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="合并表格" data-category="productivity">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">合并表格</h3>
+                    <p class="text-gray-400 text-sm mb-4">合并多个表格数据为一个表格</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('合并表格')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="单位换算" data-category="conversion">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">单位换算</h3>
+                    <p class="text-gray-400 text-sm mb-4">各类计量单位的快速换算工具</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('单位换算')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="投产核算" data-category="analysis">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">投产核算</h3>
+                    <p class="text-gray-400 text-sm mb-4">计算投产比，利润等</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('投产核算')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="批量打开关键词&ASIN" data-category="analysis">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">批量打开关键词&ASIN</h3>
+                    <p class="text-gray-400 text-sm mb-4">批量生成并打开Amazon搜索和商品链接</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('批量打开关键词&ASIN')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="图表生成" data-category="productivity">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">图表生成</h3>
+                    <p class="text-gray-400 text-sm mb-4">根据数据快速生成图表</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('图表生成')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="任务清单" data-category="productivity">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">任务清单</h3>
+                    <p class="text-gray-400 text-sm mb-4">输入当日工作清单，可在本地永久保存清单</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('任务清单')">使用工具</button>
+                </div>
+            </div>
+            <div class="card card-hover fade-in" data-tool="文本格式" data-category="text">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">文本格式</h3>
+                    <p class="text-gray-400 text-sm mb-4">常用文本格式转换工具</p>
+                    <button class="btn-primary w-full" onclick="navigateToTool('文本格式')">使用工具</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="no-results" class="hidden text-center py-12">
+            <p class="text-gray-400 text-lg">未找到匹配的工具</p>
+        </div>
+    </div>
+
+    <footer class="mt-16 py-8 border-t border-gray-800">
+        <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>© 2026 WenD's Tool. 所有工具仅供参考使用。如需获取帮助联系VX：W1036527153</p>
+        </div>
+    </footer>
+
+    <script type="module" src="../js/index.js"></script>
+</body>
+</html>

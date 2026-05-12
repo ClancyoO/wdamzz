@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务清单</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body class="min-h-screen">
+    <div class="px-4 py-6 min-h-screen flex flex-col">
+        <header class="mb-5">
+            <div class="flex justify-between items-center mb-3">
+                <button id="home-btn" class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-home mr-2"></i> 返回主页
+                </button>
+                <button id="clearAllBtn" class="px-4 py-2 bg-bg-module hover:bg-red-600 text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-trash mr-2"></i> 清除所有数据
+                </button>
+            </div>
+            <div class="text-center">
+                <h1 class="text-3xl font-bold mb-1" style="background:linear-gradient(90deg,#fff,#0070f3);-webkit-background-clip:text;-webkit-text-fill-color:transparent">任务清单</h1>
+                <p class="text-text-secondary text-sm">分类管理 · 子任务拆解 · 日历视图 · 本地保存</p>
+            </div>
+        </header>
+
+        <main class="flex-1 flex gap-5 min-h-0">
+            <div class="w-[300px] flex-shrink-0 space-y-4 overflow-y-auto" style="max-height:calc(100vh - 140px)">
+                <div class="bg-bg-card rounded-lg border border-border-color p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <button class="icon-btn" onclick="changeMonth(-1)"><i class="fa fa-chevron-left"></i></button>
+                        <span class="text-sm font-semibold" id="calTitle"></span>
+                        <button class="icon-btn" onclick="changeMonth(1)"><i class="fa fa-chevron-right"></i></button>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 text-center mb-1">
+                        <span class="text-xs text-text-secondary">日</span>
+                        <span class="text-xs text-text-secondary">一</span>
+                        <span class="text-xs text-text-secondary">二</span>
+                        <span class="text-xs text-text-secondary">三</span>
+                        <span class="text-xs text-text-secondary">四</span>
+                        <span class="text-xs text-text-secondary">五</span>
+                        <span class="text-xs text-text-secondary">六</span>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1" id="calGrid"></div>
+                    <button class="w-full mt-3 text-xs text-text-secondary hover:text-primary transition-colors py-1" onclick="selectToday()">回到今天</button>
+                </div>
+
+                <div class="bg-bg-card rounded-lg border border-border-color p-4">
+                    <h3 class="text-sm font-semibold mb-3">4Q说明</h3>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="p-2 rounded" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3)">
+                            <span class="text-red-400 font-semibold">重要且紧急</span>
+                            <p class="text-text-secondary mt-1">立即处理</p>
+                        </div>
+                        <div class="p-2 rounded" style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3)">
+                            <span class="text-blue-400 font-semibold">重要不紧急</span>
+                            <p class="text-text-secondary mt-1">计划安排</p>
+                        </div>
+                        <div class="p-2 rounded" style="background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.3)">
+                            <span class="text-yellow-400 font-semibold">紧急不重要</span>
+                            <p class="text-text-secondary mt-1">委托</p>
+                        </div>
+                        <div class="p-2 rounded" style="background:rgba(107,114,128,0.1);border:1px solid rgba(107,114,128,0.3)">
+                            <span class="text-gray-400 font-semibold">不重要不紧急</span>
+                            <p class="text-text-secondary mt-1">考虑删除</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg border border-border-color p-4">
+                    <h3 class="text-sm font-semibold mb-2">统计</h3>
+                    <div class="text-xs text-text-secondary space-y-1" id="statsArea">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 min-w-0 flex flex-col overflow-hidden" style="max-height:calc(100vh - 140px)">
+                <div class="bg-bg-card rounded-lg border border-border-color p-4 mb-4">
+                    <div class="flex gap-2 items-end flex-wrap">
+                        <div class="flex-1 min-w-[200px]">
+                            <input type="text" class="input-field" id="newTaskInput" placeholder="输入新任务..." onkeydown="if(event.key==='Enter')addTask()">
+                        </div>
+                        <div class="flex gap-1">
+                            <button class="q-btn" data-q="1" onclick="setNewQuadrant(1)" title="重要且紧急">Q1</button>
+                            <button class="q-btn" data-q="2" onclick="setNewQuadrant(2)" title="重要不紧急">Q2</button>
+                            <button class="q-btn" data-q="3" onclick="setNewQuadrant(3)" title="紧急不重要">Q3</button>
+                            <button class="q-btn" data-q="4" onclick="setNewQuadrant(4)" title="不重要不紧急">Q4</button>
+                        </div>
+                        <input type="date" class="input-field" style="width:150px" id="newTaskDate">
+                        <button class="px-4 py-2 bg-primary hover:bg-primary/80 text-white rounded-md text-sm transition-colors" onclick="addTask()">
+                            <i class="fa fa-plus mr-1"></i> 添加
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 mb-3 flex-wrap">
+                    <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">全部</button>
+                    <button class="filter-btn" data-filter="pending" onclick="setFilter('pending',this)">待完成</button>
+                    <button class="filter-btn" data-filter="done" onclick="setFilter('done',this)">已完成</button>
+                    <span class="text-border-color">|</span>
+                    <button class="filter-btn" data-filter="q1" onclick="setFilter('q1',this)" style="color:#ef4444;border-color:rgba(239,68,68,0.3)">Q1</button>
+                    <button class="filter-btn" data-filter="q2" onclick="setFilter('q2',this)" style="color:#3b82f6;border-color:rgba(59,130,246,0.3)">Q2</button>
+                    <button class="filter-btn" data-filter="q3" onclick="setFilter('q3',this)" style="color:#eab308;border-color:rgba(234,179,8,0.3)">Q3</button>
+                    <button class="filter-btn" data-filter="q4" onclick="setFilter('q4',this)" style="color:#9ca3af;border-color:rgba(107,114,128,0.3)">Q4</button>
+                    <span class="text-border-color">|</span>
+                    <button class="filter-btn" data-filter="date" onclick="setFilter('date',this)" id="dateFilterBtn">按日期</button>
+                </div>
+
+                <div class="flex-1 overflow-y-auto space-y-2 pr-1" id="taskList">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="confirmModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+        <div class="bg-bg-card border border-border-color rounded-lg p-6 max-w-sm mx-4">
+            <p class="text-text-primary mb-4" id="confirmMsg">确认操作？</p>
+            <div class="flex gap-3 justify-end">
+                <button class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors border border-border-color" onclick="closeConfirm()">取消</button>
+                <button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md text-sm transition-colors" id="confirmOk">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-bg-card border border-border-color text-text-primary px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center z-50">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <script type="module" src="../js/任务清单.js"></script>
+</body>
+</html>

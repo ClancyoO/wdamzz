@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重复检测工具</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <button id="home-btn" class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-home mr-2"></i> 返回主页
+                </button>
+                <button id="clearBtn" class="px-4 py-2 bg-bg-module hover:bg-red-600 text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-trash mr-2"></i> 清空
+                </button>
+            </div>
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gradient mb-2">重复检测工具</h1>
+                <p class="text-text-secondary">快速检测文本中的重复行，支持忽略大小写和空白</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="bg-bg-card rounded-lg border border-border-color p-5 mb-6 card-hover">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-sm font-semibold">输入文本</h2>
+                    <span class="text-xs text-text-secondary" id="lineCount">0 行</span>
+                </div>
+                <textarea class="input-area" id="mainInput" rows="10" placeholder="在此输入或粘贴文本，每行一条..."></textarea>
+            </div>
+
+            <div class="bg-bg-card rounded-lg border border-border-color p-5 mb-6 card-hover">
+                <h2 class="text-sm font-semibold mb-4">检测选项</h2>
+                <div class="flex flex-wrap gap-4">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="ignoreCase" class="checkbox">
+                        <span class="text-sm text-text-primary">忽略大小写</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="ignoreWhitespace" class="checkbox">
+                        <span class="text-sm text-text-primary">忽略首尾空白</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="ignoreEmpty" class="checkbox" checked>
+                        <span class="text-sm text-text-primary">忽略空行</span>
+                    </label>
+                </div>
+                <div class="mt-4">
+                    <button class="action-btn" onclick="detectDuplicates()">
+                        <i class="fa fa-search mr-1"></i> 检测重复
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultSection" class="hidden">
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 mb-4 card-hover">
+                    <div class="section-header">
+                        <span class="section-title"><i class="fa fa-bar-chart mr-2 text-primary"></i>检测结果</span>
+                        <span class="section-count" id="resultStats"></span>
+                    </div>
+                    <div class="stats-grid" id="statsGrid"></div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 mb-4 card-hover">
+                    <div class="section-header mb-4">
+                        <span class="section-title"><i class="fa fa-list mr-2 text-primary"></i>重复项详情</span>
+                        <button class="action-btn secondary" onclick="copyDuplicates()">
+                            <i class="fa fa-copy mr-1"></i> 复制重复项
+                        </button>
+                    </div>
+                    <div class="duplicate-list" id="duplicateList"></div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 card-hover">
+                    <div class="section-header mb-4">
+                        <span class="section-title"><i class="fa fa-check-circle mr-2 text-primary"></i>去重结果</span>
+                        <button class="action-btn secondary" onclick="copyUnique()">
+                            <i class="fa fa-copy mr-1"></i> 复制去重结果
+                        </button>
+                    </div>
+                    <textarea class="input-area" id="uniqueResult" rows="8" readonly></textarea>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 text-center text-text-secondary text-sm">
+            <p>© 2026 重复检测工具 | VX:W1036527153</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-bg-card border border-border-color text-text-primary px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center z-50">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <script type="module" src="../js/重复检测.js"></script>
+</body>
+</html>

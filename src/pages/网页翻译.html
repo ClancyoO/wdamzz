@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页翻译工具</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <button id="home-btn" class="px-4 py-2 bg-bg-module hover:bg-border-color text-text-primary rounded-md text-sm transition-colors flex items-center border border-border-color">
+                    <i class="fa fa-home mr-2"></i> 返回主页
+                </button>
+            </div>
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gradient mb-2">网页翻译工具</h1>
+                <p class="text-text-secondary">输入网址，一键生成多语言翻译链接</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="bg-bg-card rounded-lg border border-border-color p-5 mb-6 card-hover">
+                <div class="section-header">
+                    <span class="section-title"><i class="fa fa-globe mr-2 text-primary"></i>输入网址</span>
+                </div>
+                <div class="flex gap-3 mb-4">
+                    <input type="url" id="urlInput" class="url-input" placeholder="https://www.amazon.com/dp/B0C1TF6051" onkeydown="if(event.key==='Enter')generateLinks()">
+                    <button class="action-btn" onclick="generateLinks()">
+                        <i class="fa fa-language mr-1"></i> 生成链接
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultSection" class="hidden">
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 mb-4 card-hover">
+                    <div class="section-header">
+                        <span class="section-title"><i class="fa fa-google mr-2 text-primary"></i>Google翻译</span>
+                    </div>
+                    <div class="links-grid" id="googleLinks"></div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 mb-4 card-hover">
+                    <div class="section-header">
+                        <span class="section-title"><i class="fa fa-language mr-2 text-primary"></i>DeepL翻译</span>
+                    </div>
+                    <div class="links-grid" id="deeplLinks"></div>
+                </div>
+
+                <div class="bg-bg-card rounded-lg border border-border-color p-5 card-hover">
+                    <div class="section-header">
+                        <span class="section-title"><i class="fa fa-yahoo mr-2 text-primary"></i>有道翻译</span>
+                    </div>
+                    <div class="links-grid" id="youdaoLinks"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 text-center text-text-secondary text-sm">
+            <p>© 2026 网页翻译工具 | VX:W1036527153</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-bg-card border border-border-color text-text-primary px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 flex items-center z-50">
+        <i class="fa fa-check-circle mr-2"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <script type="module" src="../js/网页翻译.js"></script>
+</body>
+</html>

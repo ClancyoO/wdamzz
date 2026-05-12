@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表格合并工具 · Table Merger</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jschardet/3.0.0/jschardet.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <header class="header-with-back">
+  <button id="home-btn" class="btn-back-home">
+    &#8592; 返回主页
+  </button>
+  <div class="header-content">
+    <h1 class="page-title">表格合并工具</h1>
+    <p class="page-subtitle">支持 CSV / XLS / XLSX / XLT / XLSM 多格式智能合并 · 自动识别编码</p>
+  </div>
+</header>
+
+  <div class="upload-zone card-animate" id="uploadZone">
+    <input type="file" id="fileInput" multiple accept=".csv,.xls,.xlsx,.xlt,.xlsm">
+    <div class="upload-icon">&#128193;</div>
+    <div class="upload-text">点击或拖拽上传表格文件</div>
+    <div class="upload-hint">支持 CSV、XLS、XLSX、XLT、XLSM 格式</div>
+  </div>
+
+  <div class="file-list card-animate delay-1" id="fileListSection" style="display:none;">
+    <div class="file-list-header">
+      <span>已上传文件</span>
+      <span id="fileCount">0 个文件</span>
+    </div>
+    <div id="fileList"></div>
+  </div>
+
+  <div class="preview-section card-animate delay-2" id="previewSection" style="display:none;">
+    <div class="section-title">&#128270; 首个文件预览（前10行）</div>
+    <div class="preview-table-wrap" id="previewWrap">
+      <div class="preview-empty">暂无预览内容</div>
+    </div>
+    <div class="preview-info" id="previewInfo"></div>
+  </div>
+
+  <div class="options-section card-animate delay-3" id="optionsSection" style="display:none;">
+    <div class="section-title">&#9881; 合并选项</div>
+    <div class="option-row">
+      <span class="option-label">合并表头</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="mergeHeader" checked>
+        <span class="toggle-slider"></span>
+      </label>
+      <span style="font-size:0.8rem;color:var(--text-muted);">仅保留第一张表的表头</span>
+    </div>
+    <div class="option-row">
+      <span class="option-label">表头行数</span>
+      <input type="number" class="number-input" id="headerRows" value="1" min="1" max="5">
+      <span class="smart-detect" id="smartDetectBtn" onclick="smartDetect()">&#9889; 智能识别</span>
+      <span style="font-size:0.8rem;color:var(--text-muted);" id="detectResult"></span>
+    </div>
+  </div>
+
+  <div class="action-bar" id="actionBar" style="display:none;">
+    <button class="btn btn-primary" id="mergeBtn" onclick="mergeTables()" disabled>&#128229; 合并并下载</button>
+    <button class="btn btn-secondary" onclick="clearAll()">&#128465; 清空</button>
+  </div>
+</div>
+
+<footer>表格合并工具 · 本地处理</footer>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title warning" id="modalTitle">&#9888; 表头不一致</div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module" src="../js/合并表格.js"></script>
+</body>
+</html>
